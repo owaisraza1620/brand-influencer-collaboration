@@ -1,0 +1,54 @@
+{
+  "match_quality": {
+    "top_5_features": [
+      {
+        "feature": "posts_per_week",
+        "importance": 1.0055363506922026
+      },
+      {
+        "feature": "avg_engagement_rate",
+        "importance": 0.6543841939404978
+      },
+      {
+        "feature": "subscriber_view_ratio",
+        "importance": 0.49254574952255503
+      },
+      {
+        "feature": "view_consistency",
+        "importance": 0.36420126249075924
+      },
+      {
+        "feature": "median_engagement_rate",
+        "importance": 0.32166896535437
+      }
+    ],
+    "interpretation": [
+      "More frequent posting correlates with better match quality",
+      "Higher avg_engagement_rate increases likelihood of good match",
+      "Higher loyalty score (views/subscribers) indicates better match potential",
+      "Consistent performance makes creator more reliable for brands",
+      "Higher median_engagement_rate increases likelihood of good match"
+    ]
+  },
+  "roi_band": {
+    "top_5_features": [
+      {
+        "feature": "subscriber_count",
+        "importance": 0.3447558165232057
+      },
+      {
+        "feature": "video_count",
+        "importance": 0.28099513962811856
+      },
+      {
+        "feature": "total_views",
+        "importance": 0.15194322039709057
+      }
+    ],
+    "interpretation": [
+      "Channel size influences ROI band classification",
+      "video_count significantly impacts ROI band prediction",
+      "total_views significantly impacts ROI band prediction"
+    ]
+  }
+}
