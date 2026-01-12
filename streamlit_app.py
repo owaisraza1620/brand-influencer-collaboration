@@ -1,4 +1,3 @@
-# streamlit_app.py
 """
 Brand-Creator Matchmaker - Professional Streamlit Application
 AI-Powered Influencer Selection Tool
@@ -386,23 +385,59 @@ def main():
     # Load data and models
     df = load_data()
     if df.empty:
-        st.error("❌ Could not load creator data.")
+        st.error(" Could not load creator data.")
         return
     
     match_model, roi_model, match_encoders, feature_names = load_models()
     if match_model is None:
-        st.error("❌ Could not load ML models.")
+        st.error(" Could not load ML models.")
         return
     
     # ============================================
     # PROFESSIONAL HEADER
     # ============================================
-    st.markdown("""
-    <div class="brand-header">
-        <h1 class="brand-title">🎯 Brand-Creator Matchmaker</h1>
-        <p class="brand-subtitle">AI-Powered Influencer Selection Platform | Powered by LightGBM & SHAP</p>
-    </div>
-    """, unsafe_allow_html=True)
+    # Initialize sidebar visibility state
+    if 'sidebar_visible' not in st.session_state:
+        st.session_state.sidebar_visible = True
+    
+    # Sidebar toggle button
+    col_header1, col_header2 = st.columns([1, 20])
+    with col_header1:
+        if st.button("☰", help="Toggle Sidebar", key="header_toggle"):
+            st.session_state.sidebar_visible = not st.session_state.sidebar_visible
+            st.rerun()
+    
+    with col_header2:
+        st.markdown("""
+        <div class="brand-header">
+            <h1 class="brand-title">🎯 Brand-Creator Matchmaker</h1>
+            <p class="brand-subtitle">AI-Powered Influencer Selection Platform | Powered by LightGBM & SHAP</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Control sidebar visibility
+    sidebar_visible = st.session_state.get('sidebar_visible', True)
+    if not sidebar_visible:
+        st.markdown("""
+        <style>
+        [data-testid="stSidebar"] {
+            display: none !important;
+        }
+        [data-testid="stSidebar"][aria-expanded="true"] {
+            display: none !important;
+        }
+        section[data-testid="stSidebar"] {
+            display: none !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        
+        # Show button to restore sidebar
+        if st.button("☰ Show Sidebar & Filters", help="Show Sidebar", key="show_sidebar_btn"):
+            st.session_state.sidebar_visible = True
+            st.rerun()
+        st.info("💡 Sidebar is hidden. Click 'Show Sidebar' above or use the ☰ button in the header to show filters.")
+        st.markdown("---")
     
     # Key Metrics
     col1, col2, col3, col4 = st.columns(4)
@@ -422,7 +457,15 @@ def main():
     # SIDEBAR
     # ============================================
     with st.sidebar:
-        st.markdown("### 🎯 Campaign Setup")
+        # Sidebar header with close button
+        col_sb1, col_sb2 = st.columns([4, 1])
+        with col_sb1:
+            st.markdown("### 🎯 Campaign Setup")
+        with col_sb2:
+            if st.button("✕", key="close_sidebar", help="Hide Sidebar"):
+                st.session_state.sidebar_visible = False
+                st.rerun()
+        
         st.markdown("---")
         
         # Category Selection
@@ -434,7 +477,8 @@ def main():
         selected_category = st.selectbox(
             "**Brand Category**",
             options=categories,
-            help="Select the category that matches your brand"
+            help="Select the category that matches your brand",
+            key="sidebar_category"
         )
         
         st.markdown("---")
@@ -446,7 +490,8 @@ def main():
             "Creator Size",
             options=size_bands,
             default=size_bands,
-            help="Filter by creator size category"
+            help="Filter by creator size category",
+            key="sidebar_size"
         )
         
         # Engagement Filter
@@ -455,7 +500,8 @@ def main():
             min_value=0.0,
             max_value=10.0,
             value=0.0,
-            step=0.5
+            step=0.5,
+            key="sidebar_er"
         )
         
         # Subscriber Filter
@@ -465,7 +511,8 @@ def main():
             max_value=10_000_000,
             value=0,
             step=10000,
-            format="%d"
+            format="%d",
+            key="sidebar_subs"
         )
         
         st.markdown("---")
@@ -475,7 +522,8 @@ def main():
             "Top Recommendations",
             min_value=5,
             max_value=50,
-            value=20
+            value=20,
+            key="sidebar_topn"
         )
         
         st.markdown("---")
@@ -488,6 +536,25 @@ def main():
         
         **Total:** {len(df):,} creators
         """)
+    
+    # Store sidebar values in session state (for when sidebar is hidden)
+    if sidebar_visible:
+        st.session_state.selected_category = selected_category
+        st.session_state.selected_size = selected_size
+        st.session_state.min_er = min_er
+        st.session_state.min_subs = min_subs
+        st.session_state.top_n = top_n
+    else:
+        # Use stored values when sidebar is hidden
+        categories = sorted([x for x in df['niche'].unique() if pd.notna(x) and str(x) != 'nan'])
+        if 'selected_category' not in st.session_state or st.session_state.selected_category not in categories:
+            st.session_state.selected_category = categories[0] if categories else None
+        selected_category = st.session_state.get('selected_category', categories[0] if categories else None)
+        size_bands = sorted([str(x) for x in df['size_band'].dropna().unique() if pd.notna(x) and str(x) != 'nan'])
+        selected_size = st.session_state.get('selected_size', size_bands)
+        min_er = st.session_state.get('min_er', 0.0)
+        min_subs = st.session_state.get('min_subs', 0)
+        top_n = st.session_state.get('top_n', 20)
     
     # ============================================
     # MAIN TABS
@@ -503,6 +570,38 @@ def main():
     # TAB 1: RECOMMENDATIONS
     # ============================================
     with tab1:
+        # If sidebar hidden, show quick filters in main area
+        if not sidebar_visible:
+            st.markdown("### 🔍 Quick Filters")
+            filter_col1, filter_col2, filter_col3, filter_col4 = st.columns(4)
+            with filter_col1:
+                categories = sorted([x for x in df['niche'].unique() if pd.notna(x) and str(x) != 'nan'])
+                current_idx = categories.index(selected_category) if selected_category in categories else 0
+                selected_category = st.selectbox(
+                    "Category", 
+                    options=categories, 
+                    key="quick_category",
+                    index=current_idx
+                )
+                st.session_state.selected_category = selected_category
+            with filter_col2:
+                size_bands = sorted([str(x) for x in df['size_band'].dropna().unique() if pd.notna(x) and str(x) != 'nan'])
+                selected_size = st.multiselect(
+                    "Size", 
+                    options=size_bands, 
+                    default=selected_size if selected_size else size_bands,
+                    key="quick_size"
+                )
+                st.session_state.selected_size = selected_size
+            with filter_col3:
+                min_er = st.slider("Min ER %", min_value=0.0, max_value=10.0, value=min_er, step=0.5, key="quick_er")
+                st.session_state.min_er = min_er
+            with filter_col4:
+                top_n = st.slider("Top N", min_value=5, max_value=50, value=top_n, key="quick_topn")
+                st.session_state.top_n = top_n
+            min_subs = st.session_state.get('min_subs', 0)
+            st.markdown("---")
+        
         st.markdown(f"## Top {selected_category} Creators")
         
         # Filter data
