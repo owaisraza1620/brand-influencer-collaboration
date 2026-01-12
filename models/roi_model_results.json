@@ -1,0 +1,183 @@
+{
+  "overall": {
+    "accuracy": 0.9356435643564357,
+    "macro_precision": 0.9360702614379085,
+    "macro_recall": 0.9138123085491507,
+    "macro_f1": 0.92370345516796,
+    "weighted_f1": 0.9355065795670732,
+    "macro_roc_auc": 0.9930926985339434,
+    "avg_brier_score": 0.029182527828469005
+  },
+  "per_class": {
+    "precision": {
+      "Low": 1.0,
+      "Medium": 0.9019607843137255,
+      "High": 0.90625
+    },
+    "recall": {
+      "Low": 0.9444444444444444,
+      "Medium": 0.968421052631579,
+      "High": 0.8285714285714286
+    },
+    "f1_score": {
+      "Low": 0.9714285714285714,
+      "Medium": 0.934010152284264,
+      "High": 0.8656716417910447
+    },
+    "roc_auc": {
+      "Low": 0.9986111111111111,
+      "Medium": 0.9881947860304968,
+      "High": 0.9924721984602224
+    },
+    "brier_score": {
+      "Low": 0.016146163386128294,
+      "Medium": 0.043804151205856456,
+      "High": 0.02759726889342227
+    }
+  },
+  "confusion_matrix": [
+    [
+      68,
+      4,
+      0
+    ],
+    [
+      0,
+      92,
+      3
+    ],
+    [
+      0,
+      6,
+      29
+    ]
+  ],
+  "feature_importance": [
+    {
+      "feature": "subscriber_view_ratio",
+      "importance": 3093.887056979118
+    },
+    {
+      "feature": "avg_engagement_rate",
+      "importance": 2778.945430391718
+    },
+    {
+      "feature": "subscriber_count",
+      "importance": 2042.9408679934609
+    },
+    {
+      "feature": "view_consistency",
+      "importance": 993.9713065074372
+    },
+    {
+      "feature": "median_engagement_rate",
+      "importance": 820.9939928738638
+    },
+    {
+      "feature": "size_band",
+      "importance": 693.7303566060575
+    },
+    {
+      "feature": "total_views",
+      "importance": 625.0934594067688
+    },
+    {
+      "feature": "avg_likes",
+      "importance": 379.49700638259213
+    },
+    {
+      "feature": "er_stability",
+      "importance": 372.17355248513
+    },
+    {
+      "feature": "view_stability",
+      "importance": 353.43343519867904
+    },
+    {
+      "feature": "median_views",
+      "importance": 336.0107864595181
+    },
+    {
+      "feature": "avg_views",
+      "importance": 331.25626085121706
+    },
+    {
+      "feature": "video_count",
+      "importance": 327.8668377303137
+    },
+    {
+      "feature": "avg_comments",
+      "importance": 267.0648406311017
+    },
+    {
+      "feature": "er_band",
+      "importance": 246.41477990819652
+    },
+    {
+      "feature": "std_views",
+      "importance": 179.4171224571872
+    },
+    {
+      "feature": "total_video_views",
+      "importance": 148.70877672081326
+    },
+    {
+      "feature": "total_comments",
+      "importance": 100.17443573537
+    },
+    {
+      "feature": "total_likes",
+      "importance": 98.56823492047991
+    },
+    {
+      "feature": "posts_per_week",
+      "importance": 88.00570984211518
+    },
+    {
+      "feature": "channel_age_months",
+      "importance": 85.50080629359216
+    },
+    {
+      "feature": "niche",
+      "importance": 39.68685949099356
+    },
+    {
+      "feature": "country",
+      "importance": 39.21441962204912
+    },
+    {
+      "feature": "videos_collected",
+      "importance": 0.0
+    }
+  ],
+  "interpretation": {
+    "roc_auc": "EXCELLENT - Model strongly discriminates ROI bands",
+    "brier": "EXCELLENT - Well calibrated probabilities"
+  },
+  "metadata": {
+    "timestamp": "2025-12-30T07:57:43.715549",
+    "n_train": 804,
+    "n_test": 202,
+    "n_features": 24,
+    "n_classes": 3,
+    "class_labels": {
+      "0": "Low",
+      "1": "Medium",
+      "2": "High"
+    },
+    "model_params": {
+      "objective": "multiclass",
+      "num_class": 3,
+      "metric": "multi_logloss",
+      "boosting_type": "gbdt",
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.8,
+      "bagging_fraction": 0.8,
+      "bagging_freq": 5,
+      "class_weight": "balanced",
+      "verbose": -1,
+      "random_state": 42
+    }
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "discrimination": {
+    "roc_auc": 0.9395509499136443,
+    "pr_auc": 0.9966607121393776
+  },
+  "classification": {
+    "accuracy": 0.9702970297029703,
+    "precision": 0.9746192893401016,
+    "recall": 0.9948186528497409,
+    "f1_score": 0.9846153846153847
+  },
+  "calibration": {
+    "brier_score": 0.022920306444770028
+  },
+  "confusion_matrix": [
+    [
+      4,
+      5
+    ],
+    [
+      1,
+      192
+    ]
+  ],
+  "feature_importance": [
+    {
+      "feature": "posts_per_week",
+      "importance": 173.1924473759034
+    },
+    {
+      "feature": "avg_engagement_rate",
+      "importance": 151.0752706572956
+    },
+    {
+      "feature": "subscriber_view_ratio",
+      "importance": 70.27018849645337
+    },
+    {
+      "feature": "median_engagement_rate",
+      "importance": 50.21448785644572
+    },
+    {
+      "feature": "view_stability",
+      "importance": 45.64991006574297
+    },
+    {
+      "feature": "total_comments",
+      "importance": 34.444460340926106
+    },
+    {
+      "feature": "median_views",
+      "importance": 30.329232370279836
+    },
+    {
+      "feature": "er_stability",
+      "importance": 30.19145751979908
+    },
+    {
+      "feature": "video_count",
+      "importance": 25.316260156690795
+    },
+    {
+      "feature": "view_consistency",
+      "importance": 23.33996473096339
+    },
+    {
+      "feature": "total_views",
+      "importance": 23.05925332358072
+    },
+    {
+      "feature": "channel_age_months",
+      "importance": 17.704659150246393
+    },
+    {
+      "feature": "avg_likes",
+      "importance": 14.307693545548249
+    },
+    {
+      "feature": "std_views",
+      "importance": 13.829792625084028
+    },
+    {
+      "feature": "subscriber_count",
+      "importance": 10.604605497433429
+    },
+    {
+      "feature": "avg_comments",
+      "importance": 9.192934995229322
+    },
+    {
+      "feature": "avg_views",
+      "importance": 6.083671642507758
+    },
+    {
+      "feature": "niche",
+      "importance": 5.684316854586449
+    },
+    {
+      "feature": "total_likes",
+      "importance": 3.780629786612525
+    },
+    {
+      "feature": "country",
+      "importance": 3.338298004791356
+    },
+    {
+      "feature": "total_video_views",
+      "importance": 1.1774882373329802
+    },
+    {
+      "feature": "videos_collected",
+      "importance": 1.0341663363869884
+    },
+    {
+      "feature": "er_band",
+      "importance": 0.9152880869805813
+    },
+    {
+      "feature": "size_band",
+      "importance": 0.6353808633122493
+    }
+  ],
+  "interpretation": {
+    "roc_auc": "EXCELLENT - Model has strong discrimination ability",
+    "brier": "EXCELLENT - Well calibrated probabilities"
+  },
+  "metadata": {
+    "timestamp": "2025-12-30T07:28:31.017021",
+    "n_train": 804,
+    "n_test": 202,
+    "n_features": 24,
+    "model_params": {
+      "objective": "binary",
+      "metric": [
+        "binary_logloss",
+        "auc"
+      ],
+      "boosting_type": "gbdt",
+      "num_leaves": 31,
+      "learning_rate": 0.05,
+      "feature_fraction": 0.8,
+      "bagging_fraction": 0.8,
+      "bagging_freq": 5,
+      "scale_pos_weight": 0.04573804573804574,
+      "verbose": -1,
+      "random_state": 42
+    }
+  }
+}
